@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <link rel="stylesheet" type="text/css" href="tba.css"> 
+    <title>Kelompok 14 - TUBES TBA</title>
+</head>
+<body>
+<label>
+Tubes TBA - Kelompok 19<br >
+Masukkan kalimat (3 kata) <br >
+Pilihan kata: <br >
+NN : aye, babe, engkong, enyak, nyai <br >
+VB : buku, koran, majalah, komik <br >
+OB : membaca, melihat, membawa <br >
+</label>
+    <form class="grid">
+        
+        <center>
+        <py-script>
+        import string
+
+        # input example
+        sentence = input()
+        input_string = sentence.lower()+'#'
+        tokens = sentence.lower().split()
+        tokens.append('EOS')
+        
+        # initialization
+        alphabet_list = list (string.ascii_lowercase)
+        state_list = ['q0', 'q1', 'q2', 'q3', 'q4', 'q5',
+                        'q6', 'q7', 'q8', 'q9', 'q10',
+                        'q11', 'q12', 'q13', 'q14', 'q15',
+                        'q16', 'q17', 'q18', 'q19', 'q20',
+                        'q21', 'q22', 'q23', 'q24', 'q25',
+                        'q26', 'q27', 'q28', 'q29', 'q30',
+                        'q31', 'q32', 'q33', 'q34', '35', '36', '37', '38', '39' ,'40', '41', '42']
+        
+        transition_table = {}
+        
+        for state in state_list:
+            for alphabet in alphabet_list:
+                transition_table[(state, alphabet)] = 'error'
+            transition_table [(state, '#')] = 'error'
+            transition_table [(state, ' ')] = 'error'
+        
+        # symbols definition
+        non_terminals = ['T', 'N', 'V']
+        terminals = ['aye', 'babe', 'engkong', 'enyak', 'nyai', 'buku', 'koran', 'majalah', 'komik', 'membaca', 'melihat', 'membawa']
+        
+        # parse table definition
+        parse_table = {}
+        
+        # spaces before input string
+        transition_table ['q0', ' '] = 'q0'
+        
+        # update the transition table for the following token: nyai
+        transition_table [('q0', 'n')] = 'q1'
+        transition_table [('q1', 'y')] = 'q2'
+        transition_table [('q2', 'a')] = 'q3'
+        transition_table [('q3', 'i')] = 'q41'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: aye
+        transition_table [('q0', 'a')] = 'q4'
+        transition_table [('q4', 'y')] = 'q5'
+        transition_table [('q5', 'e')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: enyak
+        transition_table [('q0', 'e')] = 'q8'
+        transition_table [('q8', 'n')] = 'q9'
+        transition_table [('q9', 'y')] = 'q6'
+        transition_table [('q6', 'a')] = 'q7'
+        transition_table [('q7', 'k')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: engkong
+        transition_table [('q0', 'e')] = 'q8'
+        transition_table [('q8', 'n')] = 'q9'
+        transition_table [('q9', 'g')] = 'q10'
+        transition_table [('q10', 'k')] = 'q11'
+        transition_table [('q11', 'o')] = 'q12'
+        transition_table [('q12', 'n')] = 'q13'
+        transition_table [('q13', 'g')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: babe
+        transition_table [('q0', 'b')] = 'q16'
+        transition_table [('q16', 'a')] = 'q14'
+        transition_table [('q14', 'b')] = 'q15'
+        transition_table [('q15', 'e')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: buku
+        transition_table [('q0', 'b')] = 'q16'
+        transition_table [('q16', 'u')] = 'q17'
+        transition_table [('q17', 'k')] = 'q18'
+        transition_table [('q18', 'u')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: koran
+        transition_table [('q0', 'k')] = 'q21'
+        transition_table [('q21', 'o')] = 'q22'
+        transition_table [('q22', 'r')] = 'q19'
+        transition_table [('q19', 'a')] = 'q20'
+        transition_table [('q20', 'n')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: komik
+        transition_table [('q0', 'k')] = 'q21'
+        transition_table [('q21', 'o')] = 'q22'
+        transition_table [('q22', 'm')] = 'q23'
+        transition_table [('q23', 'i')] = 'q24'
+        transition_table [('q24', 'k')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: membawa
+        transition_table [('q0', 'm')] = 'q35'
+        transition_table [('q35', 'e')] = 'q30'
+        transition_table [('q30', 'm')] = 'q26'
+        transition_table [('q26', 'b')] = 'q27'
+        transition_table [('q27', 'a')] = 'q28'
+        transition_table [('q28', 'w')] = 'q25'
+        transition_table [('q25', 'a')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: membaca
+        transition_table [('q0', 'm')] = 'q35'
+        transition_table [('q35', 'e')] = 'q30'
+        transition_table [('q30', 'm')] = 'q26'
+        transition_table [('q26', 'b')] = 'q27'
+        transition_table [('q27', 'a')] = 'q28'
+        transition_table [('q28', 'c')] = 'q29'
+        transition_table [('q29', 'a')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: melihat
+        transition_table [('q0', 'm')] = 'q35'
+        transition_table [('q35', 'e')] = 'q30'
+        transition_table [('q30', 'l')] = 'q31'
+        transition_table [('q31', 'i')] = 'q32'
+        transition_table [('q32', 'h')] = 'q33'
+        transition_table [('q33', 'a')] = 'q34'
+        transition_table [('q34', 't')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # update the transition table for the following token: majalah
+        transition_table [('q0', 'm')] = 'q35'
+        transition_table [('q35', 'a')] = 'q36'
+        transition_table [('q36', 'j')] = 'q37'
+        transition_table [('q37', 'a')] = 'q38'
+        transition_table [('q38', 'l')] = 'q39'
+        transition_table [('q39', 'a')] = 'q40'
+        transition_table [('q40', 'h')] = 'q41'
+        transition_table [('q41', '#')] = 'accept'
+        transition_table [('q41', ' ')] = 'q42'
+        transition_table [('q42', ' ')] = 'q42'
+        transition_table [('q42', '#')] = 'accept'
+        
+        # new token
+        transition_table [('q42', 'n')] = 'q1'
+        transition_table [('q42', 'a')] = 'q4'
+        transition_table [('q42', 'e')] = 'q8'
+        transition_table [('q42', 'b')] = 'q16'
+        transition_table [('q42', 'k')] = 'q21'
+        transition_table [('q42', 'm')] = 'q35'
+        
+        parse_table[('T', 'aye')] = ['N', 'V', 'N']
+        parse_table[('T', 'babe')] = ['N', 'V', 'N']
+        parse_table[('T', 'enyak')] = ['N', 'V', 'N']
+        parse_table[('T', 'engkong')] = ['N', 'V', 'N']
+        parse_table[('T', 'nyai')] = ['N', 'V', 'N']
+        parse_table[('T', 'buku')] = ['N', 'V', 'N']
+        parse_table[('T', 'koran')] = ['N', 'V', 'N']
+        parse_table[('T', 'majalah')] = ['N', 'V', 'N']
+        parse_table[('T', 'komik')] = ['N', 'V', 'N']
+        parse_table[('T', 'membaca')] = ['error']
+        parse_table[('T', 'melihat')] = ['error']
+        parse_table[('T', 'membawa')] = ['error']
+        parse_table[('T', 'EOS')] = ['error']
+        
+        parse_table[('N', 'aye')] = ['aye']
+        parse_table[('N', 'babe')] = ['babe']
+        parse_table[('N', 'enyak')] = ['enyak']
+        parse_table[('N', 'engkong')] = ['engkong']
+        parse_table[('N', 'nyai')] = ['nyai']
+        parse_table[('N', 'buku')] = ['buku']
+        parse_table[('N', 'koran')] = ['koran']
+        parse_table[('N', 'majalah')] = ['majalah']
+        parse_table[('N', 'komik')] = ['komik']
+        parse_table[('N', 'membaca')] = ['error']
+        parse_table[('N', 'melihat')] = ['error']
+        parse_table[('N', 'membawa')] = ['error']
+        parse_table[('N', 'EOS')] = ['error']
+        
+        parse_table[('V', 'aye')] = ['error']
+        parse_table[('V', 'babe')] = ['error']
+        parse_table[('V', 'enyak')] = ['error']
+        parse_table[('V', 'engkong')] = ['error']
+        parse_table[('V', 'nyai')] = ['error']
+        parse_table[('V', 'buku')] = ['error']
+        parse_table[('V', 'koran')] = ['error']
+        parse_table[('V', 'majalah')] = ['error']
+        parse_table[('V', 'komik')] = ['error']
+        parse_table[('V', 'membaca')] = ['membaca']
+        parse_table[('V', 'melihat')] = ['melihat']
+        parse_table[('V', 'membawa')] = ['membawa']
+        parse_table[('V', 'EOS')] = ['error']
+        
+        #lexical analysis
+        idx_char = 0
+        state = 'q0'
+        current_token = ''
+        while state!='accept':
+            current_char = input_string[idx_char]
+            current_token += current_char
+            state = transition_table[(state,current_char)]
+            if state == 'q41':
+                print('current token' + current_token + ', valid')
+                current_token = ''
+            if state == 'error':
+                print('error')
+                break;
+            idx_char = idx_char + 1
+            
+        #conclusion
+        if state =='accept':
+            print('semua token di input : ' + sentence + ', valid')
+        
+        # stack initialization
+        stack = []
+        stack.append('#')
+        stack.append('T')
+        
+        # input reading initialization
+        idx_token = 0
+        symbol = tokens[idx_token]
+        
+        # parsing process
+        while (len(stack) > 0):
+            top = stack[len(stack)-1]
+            print(f'top = {top}')
+            print(f'symbol = {symbol}')
+            if top in terminals:
+                print('top adalah terminal')
+                if top==symbol:
+                    stack.pop()
+                    idx_token = idx_token + 1
+                    symbol = tokens[idx_token]
+                    if symbol == 'EOS':
+                        print(f'isi stack: {stack}')
+                        stack.pop()
+                else:
+                    print('error')
+                    break;
+            elif top in non_terminals:
+                print('top adalah simbol non-terminal')
+                if parse_table[(top, symbol)][0] != 'error':
+                    stack.pop()
+                    symbols_to_be_pushed = parse_table[(top, symbol)]
+                    for i in range(len(symbols_to_be_pushed)-1,-1,-1):
+                        stack.append(symbols_to_be_pushed[i])
+                else:
+                    print('error')
+                    break;
+            else:
+                print('error')
+                break;
+            print(f'isi stack: {stack}')
+            print()
+            
+        # conclusion
+        print()
+        if symbol == 'EOS' and len(stack)==0:
+            print(f'input string {sentence} diterima, sesuai grammar')
+        else:
+            print(f'error, input string: {sentence}, tidak diterima, tidak sesuai grammar')
+        </py-script>
+        </center>
+      </form>
+</body>
+</html>
